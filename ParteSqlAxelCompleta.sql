@@ -58,15 +58,15 @@ CREATE TABLE tbTipoIdentificacion(
 );
 
 
---TABLA ESTADOS CIVILES
-CREATE TABLE tbEstadosCiviles(
+--TABLA ESantaDOS CIVILES
+CREATE TABLE tbESantadosCiviles(
 	EsCi_Id					CHAR(1)NOT NULL,
-	EsCi_EstadoCivil		NVARCHAR(150) NOT NULL,
+	EsCi_ESantadoCivil		NVARCHAR(150) NOT NULL,
 	Usua_IdCreacion			INT NOT NULL,
 	EsCi_FechaCreacion		DATETIME NOT NULL,
 	Usua_IdModificacion		INT,
 	EsCi_FechaModificacion	DATETIME,
-	CONSTRAINT PK_tbEstadosCiviles_EsCi_Id PRIMARY KEY(EsCi_Id),	
+	CONSTRAINT PK_tbESantadosCiviles_EsCi_Id PRIMARY KEY(EsCi_Id),	
 );
 
 
@@ -83,13 +83,13 @@ CREATE TABLE tbEmpleados(
 	Empl_FechaNacimiento	DATE NOT NULL,
 	Empl_Telefono			NVARCHAR(9)NOT NULL,
 	Empl_CorreoEletronico	NVARCHAR(255)NOT NULL,
-	Empl_Estado				BIT NOT NULL,
+	Empl_ESantado				BIT NOT NULL,
 	Usua_IdCreacion			INT NOT NULL,
 	Empl_FechaCreacion		DATETIME NOT NULL,
 	Usua_IdModificacion		INT,
 	Empl_FechaModificacion	DATETIME
 	CONSTRAINT PK_tbEmpleados_Empl_Id PRIMARY KEY(Empl_Id),
-	CONSTRAINT FK_tbEmpleados_EsCi_Id_tbEstadosCiviles_EsCi_Id FOREIGN KEY(EsCi_Id) REFERENCES tbEstadosCiviles(EsCi_Id),
+	CONSTRAINT FK_tbEmpleados_EsCi_Id_tbESantadosCiviles_EsCi_Id FOREIGN KEY(EsCi_Id) REFERENCES tbESantadosCiviles(EsCi_Id),
 	CONSTRAINT FK_tbEmpleados_Dire_Id_tbDirecciones_Dire_Id FOREIGN KEY(Dire_Id) REFERENCES tbDirecciones(Dire_Id),
 	CONSTRAINT CK_tbEmpleados_Empl_Sexo CHECK(Empl_Sexo IN('F','M'))
 );
@@ -104,7 +104,7 @@ CREATE TABLE tbUsuarios(
 	Usua_Nombre				NVARCHAR(255)NOT NULL,
 	Usua_Clave				NVARCHAR(MAX)NOT NULL,
 	Usua_EsAdmin			BIT NOT NULL,
-	Usua_Estado				BIT NOT NULL,
+	Usua_ESantado				BIT NOT NULL,
 	Usua_IdCreacion			INT NOT NULL,
 	Usua_FechaCreacion		DATETIME NOT NULL,
 	Usua_IdModificacion		INT,
@@ -123,7 +123,7 @@ CREATE TABLE tbProveedores(
 	Dire_Id					INT NOT NULL,
 	Prov_Telefono			VARCHAR(9) NOT NULL,
 	Prov_PaginaWeb			NVARCHAR(255) NOT NULL,
-	Prov_Estado				BIT NOT NULL,
+	Prov_ESantado				BIT NOT NULL,
 	Usua_IdCreacion			INT NOT NULL,
 	Prov_FechaCreacion		DATETIME  NOT NULL,
 	Usua_IdModificacion		INT,
@@ -141,7 +141,7 @@ CREATE TABLE tbClientes(
 	Dire_Id					INT NOT NULL,
 	Clie_Telefono			NVARCHAR(9)NOT NULL,
 	Clie_CorreoElectronico	NVARCHAR(255) NOT NULL,
-	Clie_Estado				BIT NOT NULL,
+	Clie_ESantado				BIT NOT NULL,
 	Usua_IdCreacion			INT NOT NULL,
 	Clie_FechaCreacion		DATETIME NOT NULL,
 	Usua_IdModificacion		INT,
@@ -227,898 +227,898 @@ GO
 
 --INSERTS tbMunicipios
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0101','LA CEIBA','01',1,GETDATE(),NULL,NULL);
+VALUES('0101','La Ceiba','01',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0102','EL PORVENIR','01',1,GETDATE(),NULL,NULL);
+VALUES('0102','El Porvenir','01',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0103','ESPARTA','01',1,GETDATE(),NULL,NULL);
+VALUES('0103','Esparta','01',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0104','JUTIAPA','01',1,GETDATE(),NULL,NULL);
+VALUES('0104','Jutiapa','01',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0105','LA MASICA','01',1,GETDATE(),NULL,NULL);
+VALUES('0105','La Masica','01',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0106','SAN FRANCISCO','01',1,GETDATE(),NULL,NULL);
+VALUES('0106','San Francisco','01',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0107','TELA','01',1,GETDATE(),NULL,NULL);
+VALUES('0107','Tela','01',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0108','ARIZONA','01',1,GETDATE(),NULL,NULL);
+VALUES('0108','Arizona','01',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0201','TRUJILLO','02',1,GETDATE(),NULL,NULL);
+VALUES('0201','Trujillo','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0202','BALFATE','02',1,GETDATE(),NULL,NULL);
+VALUES('0202','Balfate','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0203','IRIONA','02',1,GETDATE(),NULL,NULL);
+VALUES('0203','Iriona','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0204','LIMÓN','02',1,GETDATE(),NULL,NULL);
+VALUES('0204','Limón','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0205','SABÁ','02',1,GETDATE(),NULL,NULL);
+VALUES('0205','Sabá','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0206','SANTA FE','02',1,GETDATE(),NULL,NULL);
+VALUES('0206','Santa Fe','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0207','STA. ROSA DE AGUÁN','02',1,GETDATE(),NULL,NULL);
+VALUES('0207','Santa Rosa de Aguán','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0208','SONAGUERA','02',1,GETDATE(),NULL,NULL);
+VALUES('0208','Sonaguera','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0209','TOCOA','02',1,GETDATE(),NULL,NULL);
+VALUES('0209','Tocoa','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0210','BONITO ORIENTAL','02',1,GETDATE(),NULL,NULL);
+VALUES('0210','Bonito Oriental','02',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0301','COMAYAGUA','03',1,GETDATE(),NULL,NULL);
+VALUES('0301','Comayagua','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0302','AJUTERIQUE','03',1,GETDATE(),NULL,NULL);
+VALUES('0302','Ajuterique','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0303','EL ROSARIO','03',1,GETDATE(),NULL,NULL);
+VALUES('0303','El Rosario','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0304','ESQUÍAS','03',1,GETDATE(),NULL,NULL);
+VALUES('0304','Esquías','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0305','SABÁ','03',1,GETDATE(),NULL,NULL);
+VALUES('0305','Humuya','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0306','SANTA FE','03',1,GETDATE(),NULL,NULL);
+VALUES('0306','La Libertad','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0307','STA. ROSA DE AGUÁN','03',1,GETDATE(),NULL,NULL);
+VALUES('0307','Lamaní','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0308','SONAGUERA','03',1,GETDATE(),NULL,NULL);
+VALUES('0308','La Trinidad','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0309','TOCOA','03',1,GETDATE(),NULL,NULL);
+VALUES('0309','Lejamaní','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0310','BONITO ORIENTAL','03',1,GETDATE(),NULL,NULL);
+VALUES('0310','Meámbar','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0311','MINAS DE ORO','03',1,GETDATE(),NULL,NULL);
+VALUES('0311','Minas de Oro','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0312','OJOS DE AGUA','03',1,GETDATE(),NULL,NULL);
+VALUES('0312','Ojos de Agua','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0313','SAN JERÓNIMO','03',1,GETDATE(),NULL,NULL);
+VALUES('0313','San Jerónimo','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0314','S. JOSE DE COMAYAGUA','03',1,GETDATE(),NULL,NULL);
+VALUES('0314','San José de Comayagua','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0315','S. JOSE DEL POTRERO','03',1,GETDATE(),NULL,NULL);
+VALUES('0315','San José del Potrero','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0316','SAN LUIS','03',1,GETDATE(),NULL,NULL);
+VALUES('0316','San Luis','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0317','SAN SEBASTIÁN','03',1,GETDATE(),NULL,NULL);
+VALUES('0317','San Sebastián','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0318','SIGUATEPEQUE','03',1,GETDATE(),NULL,NULL);
+VALUES('0318','Siguatepeque','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0319','VILLA DE S. ANTONIO','03',1,GETDATE(),NULL,NULL);
+VALUES('0319','Villa de San Antonio','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0320','LAJAS','03',1,GETDATE(),NULL,NULL);
+VALUES('0320','Las Lajas','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0321','TAULABÉ','03',1,GETDATE(),NULL,NULL);
+VALUES('0321','Taulabé','03',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0401','STA. ROSA DE COPÁN','04',1,GETDATE(),NULL,NULL);
+VALUES('0401','Santa Rosa de Copán','04',1,GETDATE(),NULL,NULL);
  GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0402','CABAÑAS','04',1,GETDATE(),NULL,NULL);
+VALUES('0402','Cabañas','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0403','CONCEPCIÓN','04',1,GETDATE(),NULL,NULL);
+VALUES('0403','Concepción','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0404','COPÁN RUINAS','04',1,GETDATE(),NULL,NULL);
+VALUES('0404','Copán Ruinas','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0405','CORQUÓN','04',1,GETDATE(),NULL,NULL);
+VALUES('0405','Corquín','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0406','CUCUYAGUA','04',1,GETDATE(),NULL,NULL);
+VALUES('0406','Cucuyagua','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0407','DOLORES','04',1,GETDATE(),NULL,NULL);
+VALUES('0407','Dolores','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0408','DULCE NOMBRE','04',1,GETDATE(),NULL,NULL);
+VALUES('0408','Dulce Nombre','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0409','EL PARAÍSO','04',1,GETDATE(),NULL,NULL);
+VALUES('0409','El Paraíso','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0410','FLORIDA','04',1,GETDATE(),NULL,NULL);
+VALUES('0410','Florida','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0411','LA JIGUA','04',1,GETDATE(),NULL,NULL);
+VALUES('0411','La Jigua','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0412','LA UNIÓN','04',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0413','NUEVA ARCADIA','04',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0414','SAN AGUSTÍN','04',1,GETDATE(),NULL,NULL);
+VALUES('0412','La Unión','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0415','SAN ANTONIO','04',1,GETDATE(),NULL,NULL);
+VALUES('0413','Nueva Arcadia','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0416','SAN JERÓNIMO','04',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0417','SAN JOSÉ','04',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0418','SAN JUAN DE OPOA','04',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0419','SAN NICOLÁS','04',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0420','SAN PEDRO','04',1,GETDATE(),NULL,NULL);
+VALUES('0414','San Agustín','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0421','SANTA RITA','04',1,GETDATE(),NULL,NULL);
+VALUES('0415','San ANTONIO','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0422','TRINIDAD','04',1,GETDATE(),NULL,NULL);
+VALUES('0416','San Jerónimo','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0423','VERACRUZ','04',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0501','SAN PEDRO SULA','05',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0502','CHOLOMA','05',1,GETDATE(),NULL,NULL);
+VALUES('0417','San José','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0503','OMOA','05',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0504','PIMIENTA','05',1,GETDATE(),NULL,NULL);
+VALUES('0418','San Juan de Opoa','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0505','POTRERILLOS','05',1,GETDATE(),NULL,NULL);
+VALUES('0419','San Nicolás','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0506','PUERTO CORTÉS','05',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0507','S. ANTONIO DE CORTÉS','05',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0508','SAN FCO. DE YOJOA','05',1,GETDATE(),NULL,NULL);
+VALUES('0420','San Pedro','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0509','SAN MANUEL','05',1,GETDATE(),NULL,NULL);
+VALUES('0421','Santa Rita','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0510','STA. CRUZ DE YOJOA','05',1,GETDATE(),NULL,NULL);
+VALUES('0422','Trinidad de Copán','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0511','VILLANUEVA','05',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0512','LA LIMA','05',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0601','CHOLUTECA','06',1,GETDATE(),NULL,NULL);
+VALUES('0423','Veracruz','04',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0602','APACILAGUA','06',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0603','CONCEPCIÓN DE MARÁA','06',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0604','DUYURE','06',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0605','EL CORPUS','06',1,GETDATE(),NULL,NULL);
+VALUES('0501','San Pedro Sula','05',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0606','EL TRIUNFO','06',1,GETDATE(),NULL,NULL);
+VALUES('0502','Choloma','05',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0607','MARCOVIA','06',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0608','MOROLICA','06',1,GETDATE(),NULL,NULL);
+VALUES('0503','Omoa','05',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0609','NAMASIGUE','06',1,GETDATE(),NULL,NULL);
+VALUES('0504','Pimienta','05',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0505','Potrerillos','05',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0506','Puerto Cortés','05',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0507','San Antonio de Cortés','05',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0508','San Francisco de Yojoa','05',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0610','OROCUINA','06',1,GETDATE(),NULL,NULL);
+VALUES('0509','San Manuel','05',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0510','Santa Cruz de Yojoa','05',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0511','Villanueva','05',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0611','PESPIRE','06',1,GETDATE(),NULL,NULL);
+VALUES('0512','La Lima','05',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0601','Choluteca','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0612','SAN ANTONIO DE FLORES','06',1,GETDATE(),NULL,NULL);
+VALUES('0602','Apacilagua','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0613','SAN ISIDRO','06',1,GETDATE(),NULL,NULL);
+VALUES('0603','Concepción de María','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0614','SAN JOSE','06',1,GETDATE(),NULL,NULL);
+VALUES('0604','Duyure','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0615','SAN MARCOS DE COLÓN','06',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0616','SANTA ANA DE YUSGUARE,','06',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0701','YUSCARÁN','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0702','ALAUCA','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0703','DANLÍ','07',1,GETDATE(),NULL,NULL);
+VALUES('0605','El Corpus','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0704','EL PARAÍSO','07',1,GETDATE(),NULL,NULL);
+VALUES('0606','El Triunfo','06',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0607','Marcovia','06',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0608','Morolica','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0705','"GUINOPE','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0706','JACALEAPA','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0707','LIURE','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0708','MOROCELÁ','07',1,GETDATE(),NULL,NULL);
+VALUES('0609','Namasigüe','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0709','OROPOLÁ','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0710','POTRERILLOS','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0711','S. ANTONIO DE FLORES','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0712','SAN LUCAS','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0713','SAN MATÍAS','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0714','SOLEDAD','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0715','TEUPASENTI','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0716','TEXIGUAT','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0717','VADO ANCHO','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0718','YAUYUPE','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0719','TROJES','07',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0801','DISTRITO CENTRAL','08',1,GETDATE(),NULL,NULL);
+VALUES('0610','Orocuina','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0802','ALUBAR?N','08',1,GETDATE(),NULL,NULL);
+VALUES('0611','Pespire','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0803','CEDROS','08',1,GETDATE(),NULL,NULL);
+VALUES('0612','San Antonio de Flores','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0804','CURARÓN','08',1,GETDATE(),NULL,NULL);
+VALUES('0613','San Isidro','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0805','EL PROVENIR','08',1,GETDATE(),NULL,NULL);
+VALUES('0614','San José','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0806','GUAIMACA','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0807','LA LIBERTAD','08',1,GETDATE(),NULL,NULL);
+VALUES('0615','San Marcos de Colón','06',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0808','LA VENTA','08',1,GETDATE(),NULL,NULL);
+VALUES('0616','Santa Ana de Yusguare,','06',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0701','Yuscarán','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0702','Alauca','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0703','Danlí','07',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0809','LEPATERIQUE','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0810','MARAITA','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0811','MARALE','08',1,GETDATE(),NULL,NULL);
+VALUES('0704','El Paraíso','07',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0812','NUEVA AREMNIA','08',1,GETDATE(),NULL,NULL);
+VALUES('0705','"Güinope','07',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0813','OJOJONA','08',1,GETDATE(),NULL,NULL);
+VALUES('0706','Jacaleapa','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0707','Liure','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0708','Morocelí','07',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0814','ORICA','08',1,GETDATE(),NULL,NULL);
+VALUES('0709','Oropolí','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0710','Potrerillos','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0711','San Antonio de Flores','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0712','San Lucas','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0713','San Matías','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0714','Soledad','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0715','Teupasenti','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0716','Texiguat','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0717','Vado Ancho','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0718','Yauyupe','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0719','Trojes','07',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0801','Distrito Central (Tegucigalpa y Comayaguela)','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0815','REITOCA','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0816','SABANA GRANDE','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0817','S. ANTONIO DE ORIENTE','08',1,GETDATE(),NULL,NULL);
+VALUES('0802','Alubarén','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0818','SAN BUENAVENTURA','08',1,GETDATE(),NULL,NULL);
+VALUES('0803','Cedros','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0804','Curarén','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0805','El Porvenir','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0806','Guaimaca','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0807','La Libertad','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0819','SAN IGNACIO','08',1,GETDATE(),NULL,NULL);
+VALUES('0808','La Venta','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0820','SAN JUAN DE FLORES','08',1,GETDATE(),NULL,NULL);
+VALUES('0809','Lepaterique','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0821','SAN MIGUELITO','08',1,GETDATE(),NULL,NULL);
+VALUES('0810','Maraita','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('0822','SANTA ANA','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0823','SANTA LUCÍA','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0824','TALANGA','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0825','TATUMBLA','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0826','VALLE DE ÁNGELES','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0827','VILLA DE SAN FRANCISCO','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0828','VALLECILLO','08',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0901','PUERTO LEMPIRA','09',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0902','BRUS LAGUNA','09',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0903','AHUAS','09',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0904','JUAN FRANCISCO BULNES','09',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('0905','VILLEDA MORALES','09',1,GETDATE(),NULL,NULL);
+VALUES('0811','Marale','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('0906','WAMPUSIRPE','09',1,GETDATE(),NULL,NULL);
+VALUES('0812','Nueva Armenia','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0813','Ojojona','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1001','LA ESPERANZA','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1002','CAMASCA','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1003','COLOMONCAGUA','10',1,GETDATE(),NULL,NULL);
+VALUES('0814','Orica (Francisco Morazan)','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1004','CONCEPCIÓN','10',1,GETDATE(),NULL,NULL);
+VALUES('0815','Reitoca','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1005','DOLORES','10',1,GETDATE(),NULL,NULL);
+VALUES('0816','Sabanagrande','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1006','INTIBUCÁ','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1007','JESÚS DE OTORO','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1008','MAGDALENA','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1009','MASAGUARA','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1010','SAN ANTONIO','10',1,GETDATE(),NULL,NULL);
+VALUES('0817','San Antonio de Oriente','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1011','SAN ISIDRO','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1012','SAN JUAN DE FLORES','10',1,GETDATE(),NULL,NULL);
+VALUES('0818','San Buenaventura','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1013','SAN MARCOS DE LA SIERRA','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1014','SAN MIGUEL GUANCAPLA','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1015','SANTA LUCÍA','10',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1016','YAMARANGUILA','10',1,GETDATE(),NULL,NULL);
+VALUES('0819','San Ignacio','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1017','S. FRANCISCO OPALACA','10',1,GETDATE(),NULL,NULL);
+VALUES('0820','San Juan de Flores o como se le conoce Cantarrana','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1101','ROATÁN','11',1,GETDATE(),NULL,NULL);
+VALUES('0821','San Miguelito','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1102','GUANAJA','11',1,GETDATE(),NULL,NULL);
+VALUES('0822','Santa Ana','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1103','JOSÉ SANTO GUARDIOLA','11',1,GETDATE(),NULL,NULL);
+VALUES('0823','Santa Lucía','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1104','UTILA','11',1,GETDATE(),NULL,NULL);
+VALUES('0824','Talanga','08',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1201','LA PAZ','12',1,GETDATE(),NULL,NULL);
+VALUES('0825','Tatumbla','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0826','Valle de Ángeles','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0827','Villa de San Francisco','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0828','Vallecillo','08',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0901','Puerto Lempira','09',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0902','Brus Laguna','09',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0903','Ahuas','09',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0904','Juan Francisco Bulnes','09',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('0905','Ramón Villeda Morales','09',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1202','AGUANQUETERIQUE','12',1,GETDATE(),NULL,NULL);
+VALUES('0906','Wampusirpe','09',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1203','CABAÑAS','12',1,GETDATE(),NULL,NULL);
+VALUES('1001','La Esperanza','10',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1204','CANE','12',1,GETDATE(),NULL,NULL);
+VALUES('1002','Camasca','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1003','Colomoncagua','10',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1205','CHINACLA','12',1,GETDATE(),NULL,NULL);
+VALUES('1004','Concepción','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1005','Dolores','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1006','Intibucá','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1007','Jesús de Otoro','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1008','Magdalena','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1009','Masaguara','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1010','San Antonio','10',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1206','GUAJIQUIRO','12',1,GETDATE(),NULL,NULL);
+VALUES('1011','San Isidro','10',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1207','LAUTERIQUE','12',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1208','MARCALA','12',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1209','MERCEDES DE ORIENTE','12',1,GETDATE(),NULL,NULL);
+VALUES('1012','San Juan','10',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1210','OPATORO','12',1,GETDATE(),NULL,NULL);
+VALUES('1013','San Marcos de la Sierra','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1014','San Miguel Guancapla','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1015','Santa Lucía','10',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1016','Yamaranguila','10',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1211','S. ANTONIO DEL NORTE','12',1,GETDATE(),NULL,NULL);
+VALUES('1017','San Francisco de Opalaca','10',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1212','SAN JOSÉ','12',1,GETDATE(),NULL,NULL);
+VALUES('1101','Roatán','11',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1213','SAN JUAN','12',1,GETDATE(),NULL,NULL);
+VALUES('1102','Guanaja','11',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1103','José Santos Guardiola','11',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1104','Utila','11',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1201','La Paz','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1214','SAN PEDRO DE TUTULE','12',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1215','SANTA ANA','12',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1216','SANTA ELENA','12',1,GETDATE(),NULL,NULL);
+VALUES('1202','Aguanqueterique','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1217','SANTA MARÍA','12',1,GETDATE(),NULL,NULL);
+VALUES('1203','Cabañas','12',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1204','Cane','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1218','SANTIA PURINGLA','12',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1219','YARULA','12',1,GETDATE(),NULL,NULL);
+VALUES('1205','Chinacla','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1301','GRACIAS','13',1,GETDATE(),NULL,NULL);
+VALUES('1206','Guajiquiro','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1302','BELÉN','13',1,GETDATE(),NULL,NULL);
+VALUES('1207','Lauterique','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1303','CANDELARIA','13',1,GETDATE(),NULL,NULL);
+VALUES('1208','Marcala','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1304','COLOLACA','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1305','ERANDIQUE','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1306','GUALCINSE','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1307','GUARITA','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1308','LA CAMPA','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios]
-VALUES('1309','LA IGUALA','13',1,GETDATE(),NULL,NULL);
+VALUES('1209','Mercedes de Oriente','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1310','LAS FLORES','13',1,GETDATE(),NULL,NULL);
+VALUES('1210','Opatoro','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1311','LA UNIÓN','13',1,GETDATE(),NULL,NULL);
+VALUES('1211','San Antonio del Norte','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1312','LA VIRTUD','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1313','LEPAERA','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1314','MAPULACA','13',1,GETDATE(),NULL,NULL);
+VALUES('1212','San José','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1315','PIRAERA','13',1,GETDATE(),NULL,NULL);
+VALUES('1213','San Juan','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1316','SAN ANDRÉS','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1317','SAN FRANCISCO','13',1,GETDATE(),NULL,NULL);
+VALUES('1214','San Pedro de Tutule','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1318','SAN JUAN GUARITA','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1319','SAN MANUEL COLOHETE','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1320','SAN RAFAEL','13',1,GETDATE(),NULL,NULL);
+VALUES('1215','Santa Ana','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1321','SAN SEBASTIÁN','13',1,GETDATE(),NULL,NULL);
+VALUES('1216','Santa Elena','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1322','SANTA CRUZ','13',1,GETDATE(),NULL,NULL);
+VALUES('1217','Santa María','12',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1218','Santiago de Puringla','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1323','TALGUA','13',1,GETDATE(),NULL,NULL);
+VALUES('1219','Yarula','12',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1324','TAMBLA','13',1,GETDATE(),NULL,NULL);
+VALUES('1301','Gracias','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1325','TOMALA','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1326','VALLADOLID','13',1,GETDATE(),NULL,NULL);
+VALUES('1302','Belén','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1327','VIRGINIA','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1328','S. MARCOS DE CAIQUÁN','13',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1401','NUEVA OCOTEPEQUE','14',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1402','BELÉN GUALCHO','14',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1403','CONCEPCIÓN','14',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1404','DOLORES MERENDÓN','14',1,GETDATE(),NULL,NULL);
-GO
-INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1405','FRATERNIDAD','14',1,GETDATE(),NULL,NULL);
+VALUES('1303','Candelaria','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1406','LA ENCARNACIÓN','14',1,GETDATE(),NULL,NULL);
+VALUES('1304','Cololaca','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1407','LA LABOR','14',1,GETDATE(),NULL,NULL);
+VALUES('1305','Erandique','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1408','LUCERNA','14',1,GETDATE(),NULL,NULL);
+VALUES('1306','Gualcince','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1307','Guarita','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1308','La Campa','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1309','La Iguala','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1409','MERCEDES','14',1,GETDATE(),NULL,NULL);
+VALUES('1310','LaS Flores','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1311','La Unión','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1410','MERCEDES','14',1,GETDATE(),NULL,NULL);
+VALUES('1312','La Virtud','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1313','Lepaera','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1314','Mapulaca','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1411','S. FRANCISCO DEL VALLE','14',1,GETDATE(),NULL,NULL);
+VALUES('1315','Piraera','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1316','San Andrés','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1317','San Francisco','13',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1412','SAN JORGE','14',1,GETDATE(),NULL,NULL);
+VALUES('1318','San Juan Guarita','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1319','San Manuel Colohete','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1320','San Rafael','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1321','San Sebastián','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1322','Santa Cruz','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1323','Talgua','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1324','Tambla','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1325','Tomalá','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1326','Valladolid','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1327','Virginia','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1328','San Marcos de Caiquín','13',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1401','Nueva Ocotepeque','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1402','Belén Gualcho','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1403','Concepción','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1404','Dolores Merendón','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1405','Fraternidad','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1406','La Encarnación','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1407','La Labor','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1408','Lucerna','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios] 
+VALUES('1409','Mercedes','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1410','San Fernando','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1411','San Francisco del Valle','14',1,GETDATE(),NULL,NULL);
+GO
+INSERT INTO [dbo].[tbMunicipios]
+VALUES('1412','San Jorge','14',1,GETDATE(),NULL,NULL);
  GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1413','SAN MARCOS','14',1,GETDATE(),NULL,NULL);
+VALUES('1413','San Marcos','14',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1414','SANTA FE','14',1,GETDATE(),NULL,NULL);
+VALUES('1414','Santa Fe','14',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1415','SENSENTI','14',1,GETDATE(),NULL,NULL);
+VALUES('1415','Sensenti','14',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1416','SINUAPA','14',1,GETDATE(),NULL,NULL);
+VALUES('1416','Sinuapa','14',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1501','JUTICALPA','15',1,GETDATE(),NULL,NULL);
+VALUES('1501','Juticalpa','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1502','CAMPAMENTO','15',1,GETDATE(),NULL,NULL);
+VALUES('1502','Campamento','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1503','CATACAMAS','15',1,GETDATE(),NULL,NULL);
+VALUES('1503','Catacamas','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1504','CONCORDIA','15',1,GETDATE(),NULL,NULL);
+VALUES('1504','Concordia','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1505','DULCE NOMBRE DE CULMÁ','15',1,GETDATE(),NULL,NULL);
+VALUES('1505','Dulce Nombre de Culmí','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1506','EL ROSARIO','15',1,GETDATE(),NULL,NULL);
+VALUES('1506','El Rosario','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1507','ESQUIPULAS DEL NORTE','15',1,GETDATE(),NULL,NULL);
+VALUES('1507','Esquipulas del Norte','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1508','GUALACO','15',1,GETDATE(),NULL,NULL);
+VALUES('1508','Gualaco','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1509','GUARIZAMA','15',1,GETDATE(),NULL,NULL);
+VALUES('1509','Guarizama','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
 VALUES('1510','GUATA','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1511','GUAYAPE','15',1,GETDATE(),NULL,NULL);
+VALUES('1511','Guayape','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1512','JANO','15',1,GETDATE(),NULL,NULL);
+VALUES('1512','Jano','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1513','LA UNIÓN','15',1,GETDATE(),NULL,NULL);
+VALUES('1513','La UNIÓN','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1514','MANGULILE','15',1,GETDATE(),NULL,NULL);
+VALUES('1514','Mangulile','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1515','MANTO','15',1,GETDATE(),NULL,NULL);
+VALUES('1515','Manto','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1516','SALAMÉ','15',1,GETDATE(),NULL,NULL);
+VALUES('1516','Salamá','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1517','SAN ESTEBAN','15',1,GETDATE(),NULL,NULL);
+VALUES('1517','San Esteban','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1518','S. FRANCISCO DE BECERRA','15',1,GETDATE(),NULL,NULL);
+VALUES('1518','San Francisco de Becerra','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1519','S. FRANCISCO DE LA PAZ','15',1,GETDATE(),NULL,NULL);
+VALUES('1519','San Francisco de la Paz','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1520','SANTA MARÍA DEL REAL','15',1,GETDATE(),NULL,NULL);
+VALUES('1520','Santa María del Real','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1521','SILCA','15',1,GETDATE(),NULL,NULL);
+VALUES('1521','SILCASilca15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1522','YOCÓN','15',1,GETDATE(),NULL,NULL);
+VALUES('1522','Yocón','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1523','FROYLAN TURCIOS','15',1,GETDATE(),NULL,NULL);
+VALUES('1523','Patuca','15',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1601','SANTA BÁRBARA','16',1,GETDATE(),NULL,NULL);
+VALUES('1601','Santa Bárbara','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1602','ARADA','16',1,GETDATE(),NULL,NULL);
+VALUES('1602','Arada','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1603','ATIMA','16',1,GETDATE(),NULL,NULL);
+VALUES('1603','Atima','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1604','AZACUALPA','16',1,GETDATE(),NULL,NULL);
+VALUES('1604','Azacualpa','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1605','CEGUACA','16',1,GETDATE(),NULL,NULL);
+VALUES('1605','Ceguaca','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1606','COLINAS','16',1,GETDATE(),NULL,NULL);
+VALUES('1606','San José de las Colinas','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1607','CONCEPCIÓN DEL NORTE','16',1,GETDATE(),NULL,NULL);
+VALUES('1607','Concepción del Norte','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1608','CONCEPCIÓN DEL SUR','16',1,GETDATE(),NULL,NULL);
+VALUES('1608','Concepción del Sur','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1609','CHINDA','16',1,GETDATE(),NULL,NULL);
+VALUES('1609','Chinda','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1610','EL NÓSPERO','16',1,GETDATE(),NULL,NULL);
+VALUES('1610','El Níspero','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1611','GUALALA','16',1,GETDATE(),NULL,NULL);
+VALUES('1611','Gualala','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1612','ILAMA','16',1,GETDATE(),NULL,NULL);
+VALUES('1612','Ilama','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1613','MACUELIZO','16',1,GETDATE(),NULL,NULL);
+VALUES('1613','Macuelizo','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1614','NARANJITO','16',1,GETDATE(),NULL,NULL);
+VALUES('1614','Naranjito','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1615','NUEVA CELILAC','16',1,GETDATE(),NULL,NULL);
+VALUES('1615','Nuevo Celilac','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1616','PETOA','16',1,GETDATE(),NULL,NULL);
+VALUES('1616','Petoa','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1617','PROTECCIÓN','16',1,GETDATE(),NULL,NULL);
+VALUES('1617','Protección','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1618','QUIMISTÁN','16',1,GETDATE(),NULL,NULL);
+VALUES('1618','Quimistán','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1619','S. FRANCISCO DE OJUERA','16',1,GETDATE(),NULL,NULL);
+VALUES('1619','San Francisco de Ojuera','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1620','SAN LUIS','16',1,GETDATE(),NULL,NULL);
+VALUES('1620','San Luis','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1621','SAN MARCOS','16',1,GETDATE(),NULL,NULL);
+VALUES('1621','San Marcos','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1622','SAN NICOLÁS','16',1,GETDATE(),NULL,NULL);
+VALUES('1622','San Nicolás','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1623','SAN PEDRO ZACAPA','16',1,GETDATE(),NULL,NULL);
+VALUES('1623','San Pedro Zacapa','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1624','SANTA RITA','16',1,GETDATE(),NULL,NULL);
+VALUES('1624','Santa Rita','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1625','SAN VICENTE SENTENARIO','16',1,GETDATE(),NULL,NULL);
+VALUES('1625','San Vicente Centenario','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1626','TRINIDAD','16',1,GETDATE(),NULL,NULL);
+VALUES('1626','Trinidad','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1627','LAS VEGAS','16',1,GETDATE(),NULL,NULL);
+VALUES('1627','LaS Vegas','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1628','NUEVA FRONTERA','16',1,GETDATE(),NULL,NULL);
+VALUES('1628','Nueva Frontera','16',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1701','NACAOME','17',1,GETDATE(),NULL,NULL);
+VALUES('1701','Nacaome','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1702','ALIANZA','17',1,GETDATE(),NULL,NULL);
+VALUES('1702','Alianza','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1703','AMAPALA','17',1,GETDATE(),NULL,NULL);
+VALUES('1703','Amapala','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1704','ARAMECINA','17',1,GETDATE(),NULL,NULL);
+VALUES('1704','Aramecina','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1705','CARIDAD','17',1,GETDATE(),NULL,NULL);
+VALUES('1705','Caridad','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1706','ASCORÁN','17',1,GETDATE(),NULL,NULL);
+VALUES('1706','Goascorán','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1707','LANGUE','17',1,GETDATE(),NULL,NULL);
+VALUES('1707','Langue','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1708','SAN FCO. DE CORAY','17',1,GETDATE(),NULL,NULL);
+VALUES('1708','San Francisco de Coray','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1709','SAN LORENZO','17',1,GETDATE(),NULL,NULL);
+VALUES('1709','San Lorenzo','17',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1801','YORO','18',1,GETDATE(),NULL,NULL);
+VALUES('1801','Yoro','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1802','ARENAL','18',1,GETDATE(),NULL,NULL);
+VALUES('1802','Arenal','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1803','EL NEGRITA','18',1,GETDATE(),NULL,NULL);
+VALUES('1803','El Negrito','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1804','EL PROGRESO','18',1,GETDATE(),NULL,NULL);
+VALUES('1804','El Progreso','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1805','JOCÓN','18',1,GETDATE(),NULL,NULL);
+VALUES('1805','Jocón','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1806','MORAZÁN','18',1,GETDATE(),NULL,NULL);
+VALUES('1806','Morazán','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1807','OLANCHITO','18',1,GETDATE(),NULL,NULL);
+VALUES('1807','Olanchito','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1808','SANTA RITA','18',1,GETDATE(),NULL,NULL);
+VALUES('1808','Santa Rita','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1809','SULACO','18',1,GETDATE(),NULL,NULL);
+VALUES('1809','Sulaco','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios]
-VALUES('1810','VICTORIA','18',1,GETDATE(),NULL,NULL);
+VALUES('1810','Victoria','18',1,GETDATE(),NULL,NULL);
 GO
 INSERT INTO [dbo].[tbMunicipios] 
-VALUES('1811','YORITO','18',1,GETDATE(),NULL,NULL);
+VALUES('1811','Yorito','18',1,GETDATE(),NULL,NULL);
 
 
 --INSERTS tbDirecciones
@@ -1171,24 +1171,24 @@ VALUES('N/A', 1, GETDATE(), null, null);
 GO
 
 
---INSERTS tbEstadosCiviles
-INSERT INTO tbEstadosCiviles
+--INSERTS tbESantadosCiviles
+INSERT INTO tbESantadosCiviles
 VALUES ('S', 'Soltero(a)', 1, GETDATE(), null, null);
 GO
 
-INSERT INTO tbEstadosCiviles
+INSERT INTO tbESantadosCiviles
 VALUES ('C', 'Casado(a)', 1, GETDATE(), null, null);
 GO
 
-INSERT INTO tbEstadosCiviles
+INSERT INTO tbESantadosCiviles
 VALUES ('V', 'Viudo(a)', 1, GETDATE(), null, null);
 GO
 
-INSERT INTO tbEstadosCiviles
+INSERT INTO tbESantadosCiviles
 VALUES ('D', 'Divorciado(a)', 1, GETDATE(), null, null);
 GO
 
-INSERT INTO tbEstadosCiviles
+INSERT INTO tbESantadosCiviles
 VALUES ('U', 'Union Libre', 1, GETDATE(), null, null);
 GO
 
@@ -1326,10 +1326,10 @@ ALTER TABLE tbDirecciones ADD CONSTRAINT FK_tbDirecciones_Usua_IdModificacion_tb
 ALTER TABLE tbTipoIdentificacion ADD CONSTRAINT	 FK_tbTipoIdentificacion_Usua_IdCreacion_tbUsuarios_Usua_Id FOREIGN KEY(Usua_IdCreacion) REFERENCES tbUsuarios(Usua_Id) 
 ALTER TABLE tbTipoIdentificacion ADD CONSTRAINT	 FK_tbTipoIdentificacion_Usua_IdModificacion_tbUsuarios_Usua_Id FOREIGN KEY(Usua_IdModificacion) REFERENCES tbUsuarios(Usua_Id)
 
---tbEstadosCiviles
+--tbESantadosCiviles
 
-ALTER TABLE tbEstadosCiviles ADD CONSTRAINT FK_tbEstadosCiviles_Usua_IdCreacion_tbUsuarios_Usua_Id FOREIGN KEY(Usua_IdCreacion) REFERENCES tbUsuarios(Usua_Id) 
-ALTER TABLE tbEstadosCiviles ADD CONSTRAINT FK_tbEstadosCiviles_Usua_IdModificacion_tbUsuarios_Usua_Id FOREIGN KEY(Usua_IdModificacion) REFERENCES tbUsuarios(Usua_Id) 
+ALTER TABLE tbESantadosCiviles ADD CONSTRAINT FK_tbESantadosCiviles_Usua_IdCreacion_tbUsuarios_Usua_Id FOREIGN KEY(Usua_IdCreacion) REFERENCES tbUsuarios(Usua_Id) 
+ALTER TABLE tbESantadosCiviles ADD CONSTRAINT FK_tbESantadosCiviles_Usua_IdModificacion_tbUsuarios_Usua_Id FOREIGN KEY(Usua_IdModificacion) REFERENCES tbUsuarios(Usua_Id) 
 
 --tbEmpleados
 
@@ -1386,7 +1386,7 @@ VALUES('11071999198457', 'Nadia Jiovanessy', 8, '3332-3130', 'nadia.jiovanessy@g
 GO
 
 INSERT INTO tbProveedores
-VALUES('15082003245169', 'Santos Domingo', 7, '9192-9397', 'santos.carranza@gmail.com',1,1,GETDATE(),NULL,NULL);
+VALUES('15082003245169', 'Santos Domingo', 7, '9192-9397', 'Santos.carranza@gmail.com',1,1,GETDATE(),NULL,NULL);
 GO
 
 INSERT INTO tbProveedores
@@ -1436,7 +1436,7 @@ VALUES(4, 'Consumidor Final', 'Juan Alberto Centeno', 1, '9498-8747', 'juancsabi
 GO
 
 INSERT INTO tbClientes
-VALUES(1, '05012002067027', 'Eder Jesus Sánchez', 9, '9617-8153', 'ederjsanchez22@gmail.com', 1, 1, GETDATE(), null, null);
+VALUES(1, '05012002067027', 'Eder Jesus Sánchez', 9, '9617-8153', 'ederjSanchez22@gmail.com', 1, 1, GETDATE(), null, null);
 GO
 
 INSERT INTO tbClientes
