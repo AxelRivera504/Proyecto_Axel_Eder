@@ -1,0 +1,44 @@
+$.ajax({
+	url: "",
+        method: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({  }),
+        success: function (data)
+           {
+               $.each(data, function(index, value){
+
+       	       })
+            }
+        })
+
+
+$('#Select_Departamento').change(function(){
+	var id_Departamento = $("#id_Departamento").val();
+	
+	$.ajax({
+	url: "/",
+        method: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ id_departamento: id_departamento }),
+        success: function (data)
+           {
+		$('#Select_Departamento').empty();
+		$('#Select_Departamento').append("<option value='0'>Seleccione un municipio</option>")
+               $.each(data, function(index, value){
+			$('#Select_Departamento').append("<option value='"+value.idMunicipio +"'>"+ value.Municipio +"</option>")
+       	       })
+            }
+        })
+	
+})
+
+
+public JsonResult CargarMunicipios(string idDepartamento){
+
+	var ddl = db.UDP_tbMunicipios_CargarMunicipiosPorIdDepto(idDepartamento);
+	return Json(ddl, JsonRequestBehavior.AllowGet);
+}
+
+
