@@ -1,0 +1,534 @@
+INDEX de usuarios
+@model IEnumerable<ProyectoMVC_SistemaVentas_Axel_Eder.Models.UDP_tbUsuarios_UsuariosMostrarTodos_Result>
+
+@{
+    ViewBag.Title = "Registro Usuarios";
+}
+<div class="container-fluid">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header pb-0 mb-0">
+            <h3 class="card-title">Usuarios</h3>
+        </div>
+        <hr />
+        <div class="card-body pt-0 mt-0">
+            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalCrearUsuario" style="color:white;">
+                <div class="d-flex align-items-center">
+                    <span class="nav-link-icon">
+                        <span class="fas fa-plus">
+                        </span>
+                    </span>
+                    <span class="nav-link-text ps-1">Nuevo</span>
+                </div>
+            </a>
+            <br>
+            <div class="table-responsive">
+                <table id="tableCategorias" class="table table-bordered is-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id del usuario
+                            </th>
+                            <th>
+                                Nombre del usuario
+                            </th>
+                            <th>
+                                Username
+                            </th>
+                            <th>
+                                ¿El usuario es administrador?
+                            </th>
+                            <th>Editar</th>
+                            <th>Detalles</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Usua_Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Empl_Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Usua_Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.usu_EsAdmin)
+                                </td>
+                                <td>
+                                    <a class="btn btn-warning" onclick="DataEdit(@item.Usua_Id)" data-bs-toggle="modal" data-bs-target="#ModalEditarUsuario" style="color:white;">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="fas fa-pencil-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Editar</span>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" onclick="ChargeData(@item.Usua_Id)" data-bs-toggle="modal" data-bs-target="#ModalDetailsUsuario" style="color:white;">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="far fa-list-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Detalles</span>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" onclick="DataDelete(@item.Usua_Id)" data-bs-toggle="modal" data-bs-target="#ModalEliminarUsuario" style="color:white;">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="far fa-trash-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Eliminar</span>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+@Html.Partial("_Create", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbUsuario())
+@Html.Partial("_Delete", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbUsuario())
+@Html.Partial("_Edit", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbUsuario())
+@Html.Partial("_Details", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbUsuario())
+<script>
+    function mostrarModal() {
+        $('#ModalEliminarUsuario').modal("show");
+    }
+
+    function ocultarModal() {
+        $('#ModalEliminarUsuario').modal("hide");
+    }
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Usuarios/CargarEmpleados",
+            data: "{}",
+            success: function (data) {
+                var s = '<option value="-1">Por favor selecciona un Empleado</option>';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].Empl_Id + '">' + data[i].Empl_Nombre + " " + data[i].Empl_Apellidos + '</option>';
+                }
+                $("#Empl_Id").html(s);
+            }
+        });
+    });
+
+     function DataEdit(id) {
+        $.ajax({
+            url: '@Url.Action("Edit","Usuarios")',
+            type: 'GET',
+            data: { id: id },
+            success: function (result) {
+                if (result.Usua_EsAdmin == "True") {
+                    $('#ckAdministrador').prop('checked', true);
+                }
+                if (result.Usua_Nombre) {
+                    $('#user').val(result.Usua_Nombre);
+                } if (result.Usua_Id) {
+                    $('#CodigoUsuario').val(result.Usua_Id);
+                }
+            }
+        })
+     }
+
+
+    function DataDelete(id) {
+            $.ajax({
+                url: '@Url.Action("Delete","Usuarios")',
+                type: 'GET',
+                data: { id: id },
+                success: function (result) {
+                    if (result.success) {
+                        $('#txtCodigo').text(result.Usua_Id);
+                    }
+                }
+            });
+    }
+
+    function ReallyDelete() {
+        var id = $('#txtCodigo').text();
+
+        $.ajax({
+            url: '@Url.Action("Delete", "Usuarios")',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    ocultarModal();
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+
+
+
+    function Editar() {
+        $('#lb2').attr("hidden", "");
+        $('#lb6').attr("hidden", "");
+        var Usua_Id = $('#CodigoUsuario').val();
+        var Usua_Nombre = $('#user').val();
+        var Usua_EsAdmin;
+        if ($('#ckAdministrador').prop('checked')) {
+            Usua_EsAdmin = "1";
+        }
+        else {
+            Usua_EsAdmin = "0";
+        }
+         $.ajax({
+            url: '@Url.Action("Edit", "Usuarios")',
+            type: 'POST',
+             data: { Usua_Id: Usua_Id, Usua_Nombre: Usua_Nombre, Usua_EsAdmin: Usua_EsAdmin },
+             success: function (result) {
+                 if (result.success && result.Editar) {
+                     window.location.reload();
+                 }
+                 if (result.success && result.ErrorGeneral) {
+                     $('#lb13').removeAttr("hidden");
+                     $('#lb14').removeAttr("hidden");
+                 }
+            }
+        });
+    }
+
+
+
+
+
+    function AgregarRegistro() {
+        apagarlb()
+        var Empl_Id = $('#Empl_Id').val();
+        var Usua_Nombre = $('#txtUsua').val();
+        var Usua_Clave = $('#txtPassword').val();
+        var Usua_EsAdmin;
+        if ($('#CkAdmin').prop('checked')) {
+            Usua_EsAdmin = "1";
+        }
+        else {
+            Usua_EsAdmin = "0";
+        }
+        $.ajax({
+            url: '@Url.Action("Create", "Usuarios")',
+            type: 'POST',
+            data: { Empl_Id: Empl_Id, Usua_Nombre: Usua_Nombre, Usua_Clave: Usua_Clave, Usua_EsAdmin: Usua_EsAdmin},
+            success: function (result) {
+                if (result.success && result.correcto) {
+                    window.location.reload();
+                } if (result.success && result.Error1) {
+                    $('#lb1').removeAttr("hidden");
+                    $('#lb2').removeAttr("hidden");
+                    $('#lb4').removeAttr("hidden");
+                    $('#lb5').removeAttr("hidden");
+                } if (result.success && result.Error2) {
+                    $('#lb4').removeAttr("hidden");
+                    $('#lb1').removeAttr("hidden");
+                    $('#lb6').removeAttr("hidden");
+                } if (result.success && result.Error3) {
+                    $('#lb1').removeAttr("hidden");
+                    $('#lb7').removeAttr("hidden");
+                } if (result.success && result.Error4) {
+                    $('#lb4').removeAttr("hidden");
+                    $('#lb8').removeAttr("hidden");
+                } if (result.success && result.Error5) {
+                    $('#lb1').removeAttr("hidden");
+                    $('#lb2').removeAttr("hidden");
+                    $('#lb9').removeAttr("hidden");
+                } if (result.success && result.Error6) {
+                    $('#lb1').removeAttr("hidden");
+                    $('#lb7').removeAttr("hidden");
+                } if (result.success && result.Error7) {
+                    $('#lb2').removeAttr("hidden");
+                    $('#lb10').removeAttr("hidden");
+                } if (result.success && result.Error8) {
+                    $('#lb2').removeAttr("hidden");
+                    $('#lb4').removeAttr("hidden");
+                    $('#lb11').removeAttr("hidden");
+                } if (result.success && result.Error9) {
+                    $('#lb2').removeAttr("hidden");
+                    $('#lb10').removeAttr("hidden");
+                } if (result.success && result.Error10) {
+                    $('#lb4').removeAttr("hidden");
+                    $('#lb8').removeAttr("hidden");
+                }
+            }
+        });
+    }
+
+
+    function ChargeData(id) {
+        $.ajax({
+            url: '@Url.Action("Details", "Usuarios")',
+            type: 'GET',
+            data: { id: id },
+            success: function (result) {
+                if (result.Usua_EsAdmin == "True") {
+                    $('#txtAdmin12').val("Es administrador");
+                }
+                else {
+                    $('#txtAdmin12').val("NO es administrador");
+                }
+                if (result.success) {
+                    $('#txtNombreEmp').val(result.Empl_Nombre);
+                    $('#UserName').val(result.Usua_Nombre);
+                                       
+                }
+            }
+        })
+    }
+
+
+    function Limpiar() {
+        $("#txtUsua").val("");
+        $("#txtPassword").val("") ;
+        $("#CkAdmin").prop('checked', false);
+        $("#txtUsuario").val("");
+        $("#ckAdministrador").prop('checked', false);
+        apagarlb();
+    }
+
+    function apagarlb() {
+        $('#lb1').attr("hidden", "");
+        $('#lb2').attr("hidden", "");
+        $('#lb3').attr("hidden", "");
+        $('#lb4').attr("hidden", "");
+        $('#lb5').attr("hidden", "");
+        $('#lb6').attr("hidden", "");
+        $('#lb7').attr("hidden", "");
+        $('#lb8').attr("hidden", "");
+        $('#lb9').attr("hidden", "");
+        $('#lb10').attr("hidden", "");
+        $('#lb11').attr("hidden", "");
+        $('#lb13').attr("hidden", "");
+        $('#lb14').attr("hidden", "");
+    }
+</script>
+
+
+
+
+
+MODAL CREAR
+
+@model Proyecto_SistemaVentas.Models.tbUsuario
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<div class="modal fade" id="ModalCrearUsuario" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+        <div class="modal-content position-relative">
+            <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" onclick="Limpiar()" aria-label="Close"></button>
+            </div>
+
+            <div class="form-group">
+                <div class="modal-body p-0">
+                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                        <h4 class="mb-1" id="modalExampleDemoLabel">Agrega un nuevo Usuario </h4>
+                        <label id="lb5" style="color:red;" hidden>Los campos son requeridos *</label>
+                        <label id="lb6" style="color:red;" hidden>Error en los campos de clave y empleado *</label>
+                        <label id="lb7" style="color:red;" hidden>No ha escogido un empleado *</label>
+                        <label id="lb8" style="color:red;" hidden>No ha ingresado una contraseña *</label>
+                        <label id="lb9" style="color:red;" hidden>No ha ingresado un nombre de usuario y no ha escogido un empleado *</label>
+                        <label id="lb10" style="color:red;" hidden>No ha ingresado un nombre de usuario *</label>
+                        <label id="lb11" style="color:red;" hidden>No ha ingresado un nombre de usuario y la contraseña *</label>
+                    </div>
+                    <div class="p-4 pb-0">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Empleados-name">Empleados<label id="lb1" hidden style="color:red;">*</label></label>
+                                <select id="Empl_Id" name="Empl_Id" class="form-control">
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Usuario-name">Usuario<label id="lb2" hidden style="color:red;">*</label></label>
+                                <input type="text" id="txtUsua" class="form-control" placeholder="Usuario" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Empleados-name">Usuario Admin?<label id="lb3" hidden style="color:red;">*</label></label>
+                                <div class="form-control d-flex justify-content-center">
+                                    <input type="checkbox" id="CkAdmin" class="form-check-input" />
+                                </div>                    
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Clave-name">Clave<label id="lb4" hidden style="color:red;">*</label></label>
+                                <input type="text" id="txtPassword" class="form-control" placeholder="Contraseña" />
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" type="button" onclick="Limpiar()" data-bs-dismiss="modal">CERRAR</button>
+                    <button class="btn btn-success" onclick="AgregarRegistro()">AGREGAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+MODAL EDITAR
+
+@model Proyecto_SistemaVentas.Models.tbUsuario
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="modal fade" id="ModalEditarUsuario" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+        <div class="modal-content position-relative">
+            <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" onclick="Limpiar()" aria-label="Close"></button>
+            </div>
+
+            <div class="form-group">
+                <div class="modal-body p-0">
+                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                        <h4 class="mb-1" id="modalExampleDemoLabel">Editar un usuario </h4>
+                        <label id="lb13" style="color:red;" hidden>Los campos son requeridos *</label>
+                    </div>
+                    <input type="text" id="CodigoUsuario" hidden />
+                    <div class="p-4 pb-0">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Usuario-name">Usuario<label id="lb14" hidden style="color:red;">*</label></label>
+                                <input type="text" id="user" class="form-control" placeholder="Usuario" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Empleados-name">Usuario Admin?<label id="lb3" hidden style="color:red;">*</label></label>
+                                <div class="form-control d-flex justify-content-center">
+                                    <input type="checkbox" id="ckAdministrador" class="form-check-input" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" type="button" onclick="Limpiar()" data-bs-dismiss="modal">CERRAR</button>
+                    <button class="btn btn-success" onclick="Editar()">EDITAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+MODAL DELETE
+
+
+@model Proyecto_SistemaVentas.Models.tbUsuario
+
+<div class="modal fade" id="ModalEliminarUsuario" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+        <div class="modal-content position-relative">
+            <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                    <h4 class="mb-1" id="modalExampleDemoLabel">Desea eliminar este registro?</h4>
+                </div>
+                <div class="p-4 pb-0">
+                    <input class="form-control" id="txtCodigo" hidden type="text" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ocultarModal()">Cerrar</button>
+                <button type="button" class="btn btn-danger" onclick="ReallyDelete()">Eliminar Registro </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+MODAL DETALLES
+
+
+
+
+
+@model Proyecto_SistemaVentas.Models.tbUsuario
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="modal fade" id="ModalDetailsUsuario" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+        <div class="modal-content position-relative">
+            <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" onclick="Limpiar()" aria-label="Close"></button>
+            </div>
+
+            <div class="form-group">
+                <div class="modal-body p-0">
+                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                        <h4 class="mb-1" id="modalExampleDemoLabel">Detalles del registro </h4>                       
+                    </div>
+                    <div class="p-4 pb-0">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Empleados-name">Nombre Empleado</label>
+                                <input type="text" id="txtNombreEmp" readonly class="form-control"/>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Usuario-name">Usuario</label>
+                                <input type="text" id="UserName" readonly class="form-control"/>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">                            
+                            <div class="col-sm-12">
+                                <label class="col-form-label" for="Clave-name">Usuario es administrador?</label>
+                                <input type="text" readonly id="txtAdmin12" class="form-control" />
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <hr />
+                    <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
