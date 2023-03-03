@@ -1,0 +1,67 @@
+@model ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbDirecciones
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container-fluid">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header pb-0 mb-0">
+            <h3 class="card-title">Detalles de Direcciones</h3>
+        </div>
+        <hr />
+        <div class="card-body pt-0 mt-0">
+            <div class="row">
+                <div class="col-sm-6">
+                    <b>Calle</b>
+                    @Html.DisplayFor(model => model.Dire_Calle)
+                </div>
+                <div class="col-sm-6">
+                    <b>Numero</b>
+                    @Html.DisplayFor(model => model.Dire_Numero)
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-6">
+                    <b>Comuna</b>
+                    @Html.DisplayFor(model => model.Dire_Comuna)
+                </div>
+                <div class="col-sm-6">
+                    <b>Municipio</b>
+                    @Html.DisplayFor(model => model.tbMunicipio.Muni_Municipios)
+                </div>
+            </div>
+            <br />          
+            <br />
+            <div class="row">
+                <div class="col-sm-6 d-flex justify-content-center">
+                    <a class="btn btn-warning" href="@Url.Action("Edit", "Direcciones", new { id = ViewBag.Dire_Id })">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon">
+                                <span class="fas fa-pencil-alt"></span>
+                            </span>
+                            <span class="nav-link-text ps-1">Editar</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 d-flex justify-content-center">
+                    <a class="btn btn-outline-dark" href="@Url.Action("Index", "Direcciones", null)">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon">
+                                <span class="fas fa-arrow-left"></span>
+                            </span>
+                            <span class="nav-link-text ps-1">Regresar</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+
+
+
