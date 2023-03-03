@@ -1,0 +1,43 @@
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace Proyecto_SistemaVentas.Models
+{
+    [MetadataType(typeof(ProveedoresMetaData))]
+    public partial class tbProveedore
+    {
+
+    }
+
+    public class ProveedoresMetaData
+    {
+        [Required(ErrorMessage = "Campo{0} es requerido")]
+        [Display(Name = "Proveedor Id")]
+        public int Prov_Id { get; set; }
+
+        [Required(ErrorMessage = "Campo{0} es requerido")]
+        [Display(Name = "Proveedor RUT")]
+        public string Prov_Rut { get; set; }
+
+        [Required(ErrorMessage = "Campo{0} es requerido")]
+        [Display(Name = "Proveedor Nombre")]
+        public string Prov_Nombre { get; set; }
+
+        [Required(ErrorMessage = "Campo{0} es requerido")]
+        [Display(Name = "Direccion Id")]
+        public int Dire_Id { get; set; }
+
+        [Required(ErrorMessage = "Campo{0} es requerido")]
+        [Display(Name = "Proveedor Telefono")]
+        public string Prov_Telefono { get; set; }
+
+        [Required(ErrorMessage = "Campo{0} es requerido")]
+        [Display(Name = "Pagina web")]
+        public string Prov_PaginaWeb { get; set; }
+    }
+}
+
