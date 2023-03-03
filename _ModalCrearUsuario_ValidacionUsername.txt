@@ -87,3 +87,33 @@ Codigo Js con AJAX PARA DATOS
         </div>
     </div>
 </div>
+
+--Procedimiento almacenado a agregar
+
+--Procedimiento para saber si existe un nombre de usuario
+CREATE OR ALTER PROCEDURE UDP_tbUsuarios_ExisteNombreUsuario
+	@Usua_Nombre	NVARCHAR(20)
+AS
+BEGIN
+	SELECT Usua_Id  FROM tbUsuarios WHERE Usua_Nombre = @Usua_Nombre
+END;
+GO
+
+EXEC UDP_tbUsuarios_ExisteNombreUsuario 'Axel'
+
+
+
+--Controlador Usuarios
+ [HttpGet]
+        public ActionResult ExisteUsuario(string Usua_Nombre)
+        {
+            var usuario = db.UDP_tbUsuarios_ExisteNombreUsuario(Usua_Nombre).ToList();
+            if(usuario.Count > 0)
+            {
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
