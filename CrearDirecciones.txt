@@ -99,7 +99,41 @@
 </div>
 
 
+$(document).ready(function () {
+    $.ajax({
+        type: "GET",
+        url: "/Direcciones/GetDepartment",
+        data: "{}",
+        success: function (data) {
+            var s = '<option value="-1">Por favor selecciona un departamento</option>';
+            for (var i = 0; i < data.length; i++) {
+                s += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+            }
+            $("#Dept_Id").html(s);
+        }
+    });
 
+    $('#Muni_Id').append("<option value='0'>Seleccione un departamento</option>");
+});
+
+$('#Dept_Id').change(function () {
+    var Dept_Id1 = $("#Dept_Id").val();
+
+    $.ajax({
+        url: "/Direcciones/CargarMunicipios",
+        method: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ Dept_Id: Dept_Id1 }),
+        success: function (data) {
+            $('#Muni_Id').empty();
+            $('#Muni_Id').append("<option value='0'>Seleccione un municipio</option>")
+            $.each(data, function (index, value) {
+                $('#Muni_Id').append("<option value='" + value.Muni_Id + "'>" + value.Muni_Municipios + "</option>")
+            })
+        }
+    })
+});
 
 
 
