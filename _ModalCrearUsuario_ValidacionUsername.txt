@@ -1,0 +1,89 @@
+Codigo para el modal de crear en usuario para que no se pueda repetir el nombre del usuario
+
+Codigo Js con AJAX PARA DATOS
+ $("#txtUsua").focusout(function () {
+        var Usua_Nombre = $("#txtUsua").val()
+        $.ajax({
+            url: '@Url.Action("ExisteUsuario", "Usuarios")',
+            type: 'GET',
+            data: { Usua_Nombre: Usua_Nombre },
+            success: function (result) {
+                if (result.success) {
+                    $("#lb20").removeAttr("hidden");
+                    $("#BtnAgregar").attr("disabled", true);
+                }
+                else {
+                    $("#lb20").attr("hidden", "");
+                    $("#BtnAgregar").attr("disabled", false);
+                }
+            }
+        })
+    });
+
+
+--MODAL DE CREAR VOLVERLO A PEGAR
+
+@model ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbUsuarios
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<div class="modal fade" id="ModalCrearUsuario" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+        <div class="modal-content position-relative">
+            <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" onclick="" aria-label="Close"></button>
+            </div>
+
+            <div class="form-group">
+                <div class="modal-body p-0">
+                    <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                        <label id="lb20" style="color:red;" hidden>El nombre de usuario ya existe *</label>
+                        <h4 class="mb-1" id="modalExampleDemoLabel">Agrega un nuevo Usuario </h4>
+                        <label id="lb5" style="color:red;" hidden>Los campos son requeridos *</label>
+                        <label id="lb6" style="color:red;" hidden>Error en los campos de clave y empleado *</label>
+                        <label id="lb7" style="color:red;" hidden>No ha escogido un empleado *</label>
+                        <label id="lb8" style="color:red;" hidden>No ha ingresado una contraseña *</label>
+                        <label id="lb9" style="color:red;" hidden>No ha ingresado un nombre de usuario y no ha escogido un empleado *</label>
+                        <label id="lb10" style="color:red;" hidden>No ha ingresado un nombre de usuario *</label>
+                        <label id="lb11" style="color:red;" hidden>No ha ingresado un nombre de usuario y la contraseña *</label>
+                    </div>
+                    <div class="p-4 pb-0">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Empleados-name">Empleados<label id="lb1" hidden style="color:red;">*</label></label>
+                                <select id="Empl_Id" name="Empl_Id" class="form-control">
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Usuario-name">Usuario<label id="lb2" hidden style="color:red;">*</label></label>
+                                <input type="text" id="txtUsua" class="form-control" placeholder="Usuario" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Empleados-name">Usuario Admin?<label id="lb3" hidden style="color:red;">*</label></label>
+                                <div class="form-control d-flex justify-content-center">
+                                    <input type="checkbox" id="CkAdmin" class="form-check-input" />
+                                </div>                    
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-form-label" for="Clave-name">Clave<label id="lb4" hidden style="color:red;">*</label></label>
+                                <input type="text" id="txtPassword" class="form-control" placeholder="Contraseña" />
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" type="button" onclick="Limpiar()" data-bs-dismiss="modal">CERRAR</button>
+                    <button class="btn btn-success" id="BtnAgregar" onclick="AgregarRegistro()">AGREGAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
