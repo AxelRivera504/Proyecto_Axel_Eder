@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace Proyecto_SistemaVentas.Models
+{
+    [MetadataType(typeof(DireccionesMetaData))]
+    public partial class tbDireccione
+    {
+
+    }
+    public class DireccionesMetaData
+    {
+        [Required(ErrorMessage = "El {0} es requerido")]
+        [Display(Name = "Codigo Dirección")]
+        public int Dire_Id { get; set; }
+
+        [Required(ErrorMessage = "La {0} es requerida")]
+        [Display(Name = "Calle")]
+        public string Dire_Calle { get; set; }
+
+        [Required(ErrorMessage = "El {0} es requerido")]
+        [Display(Name = "Numero")]
+        public string Dire_Numero { get; set; }
+
+        [Required(ErrorMessage = "La {0} es requerida")]
+        [Display(Name = "Comuna")]
+        public string Dire_Comuna { get; set; }
+
+        [Required(ErrorMessage = "El {0} es requerido")]
+        [Display(Name = "Municipio")]
+        public string Muni_Id { get; set; }
+    }
+}
+
+
+
