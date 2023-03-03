@@ -1,0 +1,199 @@
+@model IEnumerable<ProyectoMVC_SistemaVentas_Axel_Eder.Models.UDP_tbEstadosCiviles_MostrarTodos_Result>
+
+<div class="container-fluid">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header pb-0 mb-0">
+            <h4 class="card-title">Listado de Estados Civiles</h4>
+        </div>
+        <hr />
+        <div class="card-body pt-0 mt-0">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#ModalCreate">
+                <div class="d-flex align-items-center">
+                    <span class="nav-link-icon">
+                        <span class="fas fa-plus">
+                        </span>
+                    </span>
+                    <span class="nav-link-text ps-1">Nuevo</span>
+                </div>
+            </button>
+            <br>
+            <br>
+            <div class="table-responsive">
+                <table id="tableCategorias" class="table table-bordered is-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id del estado civil
+                            </th>
+                            <th>
+                                Estado Civil
+                            </th>
+                            <th>Editar</th>
+                            <th>Detalles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EsCi_Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EsCi_EstadoCivil)
+                                </td>
+                                <td>
+                                    <a onclick="DataEdit('@item.EsCi_Id')" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditarEstado" style="color:white;">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="fas fa-pencil-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Editar</span>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a onclick="ChargeDate('@item.EsCi_Id')" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ModalDetalleEstado" style="color:white;">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="far fa-list-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Detalles</span>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+@Html.Partial("_Create", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbEstadosCiviles())
+@Html.Partial("_Edit", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbEstadosCiviles())
+@Html.Partial("_Details", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbEstadosCiviles())
+
+<script>
+    //Funciones Ajax para el manejo del boton de editar
+    function DataEdit(id) {
+        $.ajax({
+            url: '@Url.Action("Edit","EstadosCiviles")',
+            type: 'GET',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    $('#txtCodigo').val(result.EsCi_Id);
+                    $('#txtEstadoCiviles').val(result.EsCi_EstadoCivil);
+                }
+            }
+        });
+    }
+
+    function Editar() {
+        $('#lb7').attr("hidden", "");
+        $('#lb6').attr("hidden", "");
+        var id = $('#txtEstadoCiviles').val();
+        var id2 = $('#txtCodigo').val();
+         $.ajax({
+            url: '@Url.Action("EditarEstado", "EstadosCiviles")',
+            type: 'POST',
+             data: { id: id, id2: id2 },
+            success: function (result) {
+                if (result.success && result.label1) {
+                    $('#lb6').removeAttr("hidden");
+                    $('#lb7').removeAttr("hidden");
+                }
+                if (result.success && result.label2) {
+                    MostrarMensajeWarning("El estado civil ingresado ya existe");
+                }
+                if (result.success && respuesta) {
+                    Limpiar();
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    function CodigoInput() {
+        if ((event.keyCode != 32) && (event.keyCode < 65) || (event.keyCode > 90) && (event.keyCode < 97) || (event.keyCode > 122))
+            event.returnValue = false;
+    }
+
+    //Funciones Ajax para el manejo del boton de Detalles
+     function ChargeDate(id) {
+        $.ajax({
+            url: '@Url.Action("Details", "EstadosCiviles")',
+            type: 'GET',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    $('#txtCode').val(result.EsCi_Id);
+                    $('#txtEstadoCivil').val(result.EsCi_EstadoCivil);
+                }
+            }
+        });
+    }
+
+    //Funcion ajax para agregar un Estado Civil con sua valiadciones de existancia de regisrtos
+    function AgregarRegistro() {
+        $('#lb3').attr("hidden","");
+        $('#lb1').attr("hidden","");
+        $('#lb2').attr("hidden","");
+        $('#lb4').attr("hidden","");
+        $('#lb5').attr("hidden","");
+        var EsCi_Id1 = $('#txtCodigoInput').val();
+        var EsCi_EstadoCivil1 = $('#txtEstadoCivilInput').val();
+        $.ajax({
+            url: '@Url.Action("Create", "EstadosCiviles")',
+            type: 'POST',
+            data: { EsCi_Id: EsCi_Id1, EsCi_EstadoCivil: EsCi_EstadoCivil1},
+            success: function (result) {
+                if (result.success && result.label3) {
+                    $('#lb3').removeAttr("hidden");
+                    $('#lb1').removeAttr("hidden");
+                    $('#lb2').removeAttr("hidden");
+                }
+                if (result.success && result.label4) {
+                    $('#lb4').removeAttr("hidden");
+                    $('#lb2').removeAttr("hidden");
+                }
+                if (result.success && result.label5) {
+                    $('#lb5').removeAttr("hidden");
+                    $('#lb1').removeAttr("hidden");
+                }
+                if (result.success && result.RegistroExiste) {
+                    MostrarMensajeWarning("El estado civil ingresado ya existe");
+                }
+                if (result.success && result.RegistroIdentico) {
+                    MostrarMensajeWarning("Ya existe un registro con estos datos");
+                }
+                if (result.success && result.CodigoExiste) {
+                    MostrarMensajeWarning("El codigo del estado Civil que desea digitar ya existe");
+                }
+                if (result.success && result.Agregar) {
+                    Limpiar();
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    function Limpiar() {
+        $('#lb3').attr("hidden", "");
+        $('#lb1').attr("hidden", "");
+        $('#lb2').attr("hidden", "");
+        $('#lb4').attr("hidden", "");
+        $('#lb5').attr("hidden", "");
+        $('#lb7').attr("hidden", "");
+        $('#lb6').attr("hidden", "");
+        $("#txtCodigoInput").val("");
+        $("#txtEstadoCivilInput").val("");
+        $("#txtEstadoCiviles").val("");
+    }
+</script>
