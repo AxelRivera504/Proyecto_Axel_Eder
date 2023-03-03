@@ -1,0 +1,346 @@
+@model ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbProveedores
+
+@{
+    ViewBag.Title = "Proveedores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header pb-0 mb-0">
+            <h3 class="card-title">Editar cliente</h3>
+        </div>
+        <hr />
+        <div class="card-body pt-0 mt-0">
+
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Prov_Id)
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Prov_Rut, htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Prov_Rut, new { htmlAttributes = new { @class = "form-control", @maxlength = "14" } })
+                            <label style="color:red" id="lblErrorIdAca"></label>
+                            @Html.ValidationMessageFor(model => model.Prov_Rut, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Prov_Nombre, htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Prov_Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Prov_Nombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Departamento</label>
+                        <div class="col-md-12">
+                            <select id="Dept_Id" name="Dept_Id" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Municipio</label>
+                        <div class="col-md-12">
+                            <select id="Muni_Id" name="Muni_Id" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dire_Id, "Dire_Id", htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-12">
+                            @Html.DropDownList("Dire_Id", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Dire_Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Prov_Telefono, htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Prov_Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Prov_Telefono, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Prov_PaginaWeb, htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Prov_PaginaWeb, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Prov_PaginaWeb, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-6 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon">
+                                <span class="fas fa-pencil-alt"></span>
+                            </span>
+                            <span class="nav-link-text ps-1">Editar</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-sm-6 d-flex justify-content-center">
+                    <a class="btn btn-outline-dark" href="@Url.Action("Index", "Proveedores", null)">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon">
+                                <span class="fas fa-arrow-left"></span>
+                            </span>
+                            <span class="nav-link-text ps-1">Regresar</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+<script>
+
+        var Dire_Id = $('#Dire_Id').val();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ObtenerMunicipio", "Proveedores")',
+            data: { Dire_Id: Dire_Id },
+            success: function (result) {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Proveedores/GetMunicipios",
+                    data: "{}",
+                    success: function (data) {
+                        var s = '<option value="-1">Por favor selecciona un municipio</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            s += '<option value="' + data[i].Muni_Id + '">' + data[i].Muni_Municipios + '</option>';
+                        }
+                        $("#Muni_Id").html(s);
+                        $("#Muni_Id").val(result.Muni_Id);
+
+
+
+                         var Muni_Id = $('#Muni_Id').val();
+                        $.ajax({
+                            type: "GET",
+                            url: '@Url.Action("ObtenerDepartamentoId", "Proveedores")',
+                            data: { Muni_Id: Muni_Id },
+                            success: function (result) {
+
+                                $.ajax({
+                                    type: "GET",
+                                    url: "/Proveedores/GetDepartment",
+                                    data: "{}",
+                                    success: function (data) {
+                                        var s = '<option value="-1">Por favor selecciona un departamento</option>';
+                                        for (var i = 0; i < data.length; i++) {
+                                            s += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                                        }
+                                        $("#Dept_Id").html(s);
+                                        $("#Dept_Id").val(result.Dept_Id);
+                                    }
+                                });
+                                $('#Muni_Id').change(function () {
+                                    var Muni_Id1 = $("#Muni_Id").val();
+
+                                    $.ajax({
+                                        url: "/Proveedores/CargarDireccion",
+                                        method: "POST",
+                                        dataType: "json",
+                                        contentType: "application/json; charset=utf-8",
+                                        data: JSON.stringify({ Muni_Id: Muni_Id1 }),
+                                        success: function (data) {
+                                            $('#Dire_Id').empty();
+                                            $('#Dire_Id').append("<option value='0'>Seleccione una direccion</option>")
+                                            $.each(data, function (index, value) {
+                                                $('#Dire_Id').append("<option value='" + value.Dire_Id + "'>" + value.Dire_Calle + "," + value.Dire_Numero + "," + value.Dire_Comuna + "</option>")
+                                            })
+                                        }
+                                    })
+                                });
+
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+
+
+    $("#Dept_Id").change(function () {
+        var Dept_Id = $('#Dept_Id').val();
+        $.ajax({
+            type: "POST",
+            url: "/Proveedores/CargarMunicipios",
+            data: { Dept_Id: Dept_Id},
+            success: function (data) {
+                $("#Muni_Id").empty();
+                $("#Muni_Id").append("<option value = '0'>seleccione un municipio</option>");
+
+                $.each(data, function (i, value) {
+                    $("#Muni_Id").append("<option value = '" + value.Muni_Id + "'>" + value.Muni_Municipios + "</option>");
+                })
+            }
+        });
+    });
+
+    $('#Prov_Rut').focusout(function () {
+        var Prov_Rut = $('#Prov_Rut').val()
+        $.ajax({
+            type: "GET",
+            url: "/Proveedores/ProveedorExiste",
+            data: { Prov_Rut: Prov_Rut },
+            success: function (result) {
+                if (result.success) {
+                    $("#lblErrorIdAca").text("El proveedor ya existe");
+                    $("#btnEditar").attr("disabled", true);
+                }
+                else {
+                    $("#lblErrorIdAca").attr("hidden", "");
+                    $("#btnEditar").attr("disabled", false);
+                }
+            }
+        });
+    })
+</script>
+
+
+
+
+
+
+MODAL ELIMINAR PROVEEDORES
+
+@model ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbProveedores
+
+<div class="modal fade" id="ModalEliminarProveedor" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+        <div class="modal-content position-relative">
+            <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                    <h4 class="mb-1" id="modalExampleDemoLabel">Desea eliminar este registro?</h4>
+                </div>
+                <div class="p-4 pb-0">
+                    <input class="form-control" id="txtCodigo" hidden type="text" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="ReallyDelete()">Eliminar Registro </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="ocultarModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+DETALLES PROVEEDORES
+
+
+@model ProyectoMVC_SistemaVentas_Axel_Eder.Models.tbProveedores
+
+@{
+    ViewBag.Title = "Proveedores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header pb-0 mb-0">
+            <h3 class="card-title">Detalles de Proveedores</h3>
+        </div>
+        <hr />
+        <div class="card-body pt-0 mt-0">
+            <div class="row">
+                <div class="col-sm-6">
+                    <b>RUT del proveedor</b>
+                    @Html.DisplayNameFor(model => model.Prov_Rut)
+                </div>
+                <div class="col-sm-6">
+                    <b>Nombre del Proveedor</b>
+                    @Html.DisplayNameFor(model => model.Prov_Nombre)
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-6">
+                    <b>Telefono del proveedor</b>
+                    @Html.DisplayFor(model => model.Clie_Telefono)
+                </div>
+                <div class="col-sm-6">
+                    <b>Pagina web del proveedor</b>
+                    @Html.DisplayFor(model => model.Prov_PaginaWeb)
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <b>Direccion Calle</b>
+                    @Html.DisplayFor(model => model.tbDireccione.Dire_Calle)
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-6 d-flex justify-content-center">
+                    <a class="btn btn-warning" href="@Url.Action("Edit", "Proveedores", new { id = Model.Prov_Id })">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon">
+                                <span class="fas fa-pencil-alt"></span>
+                            </span>
+                            <span class="nav-link-text ps-1">Editar</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 d-flex justify-content-center">
+                    <a class="btn btn-outline-dark" href="@Url.Action("Index", "Proveedores", null)">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon">
+                                <span class="fas fa-arrow-left"></span>
+                            </span>
+                            <span class="nav-link-text ps-1">Regresar</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+
+
+
+
