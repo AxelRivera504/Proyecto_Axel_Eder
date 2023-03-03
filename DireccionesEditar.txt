@@ -1,0 +1,130 @@
+@model Proyecto_SistemaVentas.Models.tbDireccione
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Dire_Id)
+   
+    <div class="card">
+        <div class="card-header">
+            <h5>Edite los siguientes campos</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dire_Calle, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Dire_Calle, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dire_Calle, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dire_Numero, htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Dire_Numero, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dire_Numero, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dire_Comuna, htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Dire_Comuna, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dire_Comuna, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>Departamentos</label>
+                    <select id="Dept_Id" name="Dept_Id" class="form-control">
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Muni_Id, "Muni_Id", htmlAttributes: new { @class = "control-label " })
+                        <div class="col-md-12">
+                            @Html.DropDownList("Muni_Id", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Muni_Id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-6">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-secondary" })
+                </div>
+                <div class="col-sm-6">
+                    <input type="submit" value="EDITAR" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        var Muni_Id = $('#Muni_Id').val();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ObtenerDepartamentoId", "Direcciones")',
+            data: { Muni_Id: Muni_Id },
+            success: function (result) {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Direcciones/GetDepartment",
+                    data: "{}",
+                    success: function (data) {
+                        var s = '<option value="-1">Por favor selecciona un departamento</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            s += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                        }
+                        $("#Dept_Id").html(s);
+                        $("#Dept_Id").val(result.Dept_Id);
+                    }
+                });
+
+            }
+        });
+    });
+
+    $("#Dept_Id").change(function () {
+        var Dept_Id = $('#Dept_Id').val();
+        $.ajax({
+            type: "POST",
+            url: "/Direcciones/CargarMunicipios",
+            data: { Dept_Id: Dept_Id},
+            success: function (data) {
+                $("#Muni_Id").empty();
+                $("#Muni_Id").append("<option value = '0'>seleccione un municipio</option>");
+
+                $.each(data, function (i, value) {
+                    $("#Muni_Id").append("<option value = '" + value.Muni_Id + "'>" + value.Muni_Municipios + "</option>");
+                })
+            }
+        });
+    });
+</script>
+
+
+
+
