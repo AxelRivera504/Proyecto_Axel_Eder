@@ -1,0 +1,110 @@
+index
+
+@model IEnumerable<ProyectoMVC_SistemaVentas_Axel_Eder.Models.UDP_tbDirecciones_MostrarTodos_Result>
+
+
+
+<div class="container-fluid">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header pb-0 mb-0">
+            <h3 class="card-title">Direcciones</h3>
+        </div>
+        <hr />
+        <div class="card-body pt-0 mt-0">
+            <a class="btn btn-primary" style="color:white;" href="@Url.Action("Create","Direcciones",null)">
+                <div class="d-flex align-items-center">
+                    <span class="nav-link-icon">
+                        <span class="fas fa-plus">
+                        </span>
+                    </span>
+                    <span class="nav-link-text ps-1">Nuevo</span>
+                </div>
+            </a>
+            <br>
+            <br>
+            <div class="table-responsive">
+                <table id="tbDirecciones" class="table table-bordered is-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id de la direccion
+                            </th>
+                            <th>
+                                Calles
+                            </th>
+                            <th>
+                                Numero
+                            </th>
+                            <th>
+                                Comunas
+                            </th>
+                            <th>
+                                Municipios
+                            </th>
+                            <th>
+                                Departamentos
+                            </th>
+                            <th>Editar</th>
+                            <th>Detalles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dire_Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dire_Calle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dire_Numero)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dire_Comuna)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Muni_Municipios)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dept_Departamento)
+                                </td>
+                                <td>
+                                    <a class="btn btn-warning" style="color:white;" href="@Url.Action("Edit","Direcciones",new {id = item.Dire_Id})">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="fas fa-pencil-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Editar</span>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" style="color:white;" href="@Url.Action("Details","Direcciones",new { id = item.Dire_Id})">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="far fa-list-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Detalles</span>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+
+
+
+
