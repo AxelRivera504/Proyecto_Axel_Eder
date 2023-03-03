@@ -1,0 +1,253 @@
+@model IEnumerable<Proyecto_SistemaVentas.Models.UDP_tbMunicipios_MunicipiosTodos_Result>
+
+<div class="container-fluid">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header pb-0 mb-0">
+            <h4 class="card-title">Listado de Municipios</h4>
+        </div>
+        <hr />
+        <div class="card-body pt-0 mt-0">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#ModalMunicipiosCrear">
+                <div class="d-flex align-items-center">
+                    <span class="nav-link-icon">
+                        <span class="fas fa-plus">
+                        </span>
+                    </span>
+                    <span class="nav-link-text ps-1">Nuevo</span>
+                </div>
+            </button>
+            <br>
+            <br>
+            <div class="table-responsive">
+                <table id="tbMunicipios" class="table table-bordered is-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id del municipio
+                            </th>
+                            <th>
+                                Municipio
+                            </th>
+                            <th>
+                                Departamento
+                            </th>
+                            <th>Editar</th>
+                            <th>Detalles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Muni_Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Muni_Municipios)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dept_Departamento)
+                                </td>
+                                <td>
+                                    <a onclick="DataEdit('@item.Muni_Id')" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ModalEditarMunicipio" style="color:white;">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="fas fa-pencil-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Editar</span>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a onclick="ChargeData('@item.Muni_Id')" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ModalDetailsMunicipio" style="color:white;">
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <span class="far fa-list-alt">
+                                                </span>
+                                            </span>
+                                            <span class="nav-link-text ps-1">Detalles</span>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+@Html.Partial("_Create", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.UDP_tbMunicipios_MunicipiosTodos_Result())
+@Html.Partial("_Edit", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.UDP_tbMunicipios_MunicipiosTodos_Result())
+@Html.Partial("_Details", new ProyectoMVC_SistemaVentas_Axel_Eder.Models.UDP_tbMunicipios_MunicipiosTodos_Result())
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Municipios/getDepartment",
+            data: "{}",
+            success: function (data) {
+                var s = '<option value="-1">Por favor selecciona un departamento</option>';
+                for (var i = 0; i < data.length; i++) {
+                    s += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                }
+                $("#Dept_Id").html(s);
+            }
+        });
+    });
+
+    //Funciones Ajax para el manejo del boton de editar
+    function DataEdit(id) {
+        $('#lb5').attr("hidden", "");
+        $('#lb6').attr("hidden", "");
+        $('#lb7').attr("hidden", "");
+        $('#lb8').attr("hidden", "");
+        $.ajax({
+            url: '@Url.Action("Edit","Municipios")',
+            type: 'GET',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    $('#txtId').val(result.Muni_Id);
+                    $('#txtMuni').val(result.Muni_Municipio);
+                    $.ajax({
+                        type: "GET",
+                        url: "/Municipios/getDepartment",
+                        data: "{}",
+                        success: function (data) {
+                            var s = '<option value="-1">Por favor selecciona un departamento</option>';
+                            for (var i = 0; i < data.length; i++) {
+                                s += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                            }
+                            $("#DDL_Dept").html(s);
+                            $('#DDL_Dept').val(result.Dept_Id);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function Editar() {
+        $('#lb5').attr("hidden", "");
+        $('#lb6').attr("hidden", "");
+        $('#lb7').attr("hidden", "");
+        $('#lb8').attr("hidden", "");
+        var id = $('#DDL_Dept').val();
+        var id2 = $('#txtMuni').val();
+        var id3 = $('#txtId').val();
+         $.ajax({
+            url: '@Url.Action("EditarMunicipio", "Municipios")',
+            type: 'POST',
+             data: { Muni_Id: id3, Dept_Id: id, Muni_Municipios: id2 },
+            success: function (result) {
+                if (result.success && result.Label5) {
+                    $('#lb5').removeAttr("hidden");
+                    $('#lb6').removeAttr("hidden");
+                    $('#lb7').removeAttr("hidden");
+                    $('#lb8').removeAttr("hidden");
+                }
+                if (result.success && result.Label6) {
+                    $('#lb6').removeAttr("hidden");
+                    $('#lb8').removeAttr("hidden");
+
+                }
+                if (result.success && result.Label7) {
+                    $('#lb5').removeAttr("hidden");
+                    $('#lb7').removeAttr("hidden");
+                }
+                if (result.success && result.Error) {
+                    MostrarMensajeWarning("El municipio que desea agregar ya existe en el departamento");
+                }
+                if (result.success && result.Editar) {
+                    window.location.reload();
+                    Limpiar();
+                }
+            }
+        });
+    }
+
+     //Funciones Ajax para el manejo del boton de Detalles
+     function ChargeData(id) {
+        $.ajax({
+            url: '@Url.Action("Details", "Municipios")',
+            type: 'GET',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    $('#txtMuniDetails').val(result.Muni_Municipios);
+                    $.ajax({
+                        type: "GET",
+                        url: "/Municipios/getDepartment",
+                        data: "{}",
+                        success: function (data) {
+                            var s = '<option value="-1">Por favor selecciona un departamento</option>';
+                            for (var i = 0; i < data.length; i++) {
+                                s += '<option value="' + data[i].DepartmentID + '">' + data[i].DepartmentName + '</option>';
+                            }
+                            $("#Ddl_DeptoDetails").html(s);
+                            $('#Ddl_DeptoDetails').val(result.Dept_Id);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+      //Funcion para agregar el departamento con sus respectivas validaciones
+     function AgregarRegistro() {
+         $('#lb3').attr("hidden","");
+         $('#lb4').attr("hidden", "");
+         $('#lb1').attr("hidden", "");
+         $('#lb2').attr("hidden", "");
+         var Dept_Id = $('#Dept_Id').val();
+         var Muni_Municipios = $('#txtMunicipios').val();
+        $.ajax({
+            url: '@Url.Action("Create", "Municipios")',
+            type: 'POST',
+            data: { Dept_Id: Dept_Id, Muni_Municipios: Muni_Municipios},
+            success: function (result) {
+                if (result.success && result.label1) {
+                    $('#lb3').removeAttr("hidden");
+                    $('#lb4').removeAttr("hidden");
+                    $('#lb1').removeAttr("hidden");
+                    $('#lb2').removeAttr("hidden");
+                }
+                if (result.success && result.label2) {
+                    $('#lb2').removeAttr("hidden");
+                    $('#lb3').removeAttr("hidden");
+                }
+                if (result.success && result.label3) {
+                    $('#lb1').removeAttr("hidden");
+                    $('#lb4').removeAttr("hidden");
+                }
+                if (result.success && result.Error) {
+                    MostrarMensajeWarning("El municipio ya existe en el departamento escogido");
+                }
+                if (result.success && result.Agregar) {
+                    window.location.reload();
+                    Limpiar();
+                }
+            }
+        });
+    }
+
+    function Limpiar() {
+        $('#lb1').attr("hidden", "");//create
+        $('#lb2').attr("hidden", "");//edit
+        $('#lb3').attr("hidden", "");//create
+        $('#lb4').attr("hidden", "");//edit
+        $("#txtMunicipios").val("");//create
+        $("#txtMuni").val("");//edit
+        $('#lb5').attr("hidden", "");
+        $('#lb6').attr("hidden", "");
+        $('#lb7').attr("hidden", "");
+        $('#lb8').attr("hidden", "");
+        //txtEstadoCiviles.val() = "";
+    }
+</script>
