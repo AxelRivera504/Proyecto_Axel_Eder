@@ -1,0 +1,24 @@
+$(function () {
+    var datefields = $("input[type='date']");
+
+
+    if (!Modernizr.inputtypes.date) {
+        datefields
+            .datepicker()
+            .each(function () {
+                 //Turn ISO 8601 date string into US date string
+                var dateParts = this.value.split("-"),
+                    date = $.map(dateParts, function (el) {
+                        return !isNaN(parseInt(el, 10)) ? el : null;
+                    }).length === 3
+                        ? new Date(dateParts[0], dateParts[1] -1, dateParts[2])
+                        : null;
+
+                this.type = "text";
+                this.value = !date ? "" :
+                    (date.getMonth()+1) + "/" +
+                    date.getDate() + "/" +
+                    date.getFullYear();
+            });
+    }
+});
