@@ -1,0 +1,449 @@
+using ProyectoMVC_SistemaVentas_Axel_Eder.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+
+namespace ProyectoMVC_SistemaVentas_Axel_Eder.Controllers
+{
+    public class UsuariosController : Controller
+    {
+        private DB_SistemaVentasEntities db = new DB_SistemaVentasEntities();
+
+        // GET: Usuarios
+        public ActionResult Index()
+        {
+
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    var tbUsuarios = db.UDP_tbUsuarios_UsuariosMostrarTodos();
+                    return View(tbUsuarios.ToList());
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }
+
+         
+        }
+
+        // GET: Usuarios/Details/5
+        public ActionResult Details(string id)
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    if (id == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    var tbUsuarios = db.UDP_tbUsuario_CargarDatosEditar_Eliminar_Detalles(id).ToList();
+                    if (tbUsuarios.Count == 0)
+                    {
+                        return HttpNotFound();
+                    }
+                    return Json(new { success = true, Usua_Nombre = tbUsuarios[0].Usua_Nombre.ToString(), Empl_Nombre = tbUsuarios[0].Empl_Nombre.ToString(), Usua_EsAdmin = tbUsuarios[0].Usua_EsAdmin.ToString() }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }          
+        }
+
+        [HttpGet]
+        public ActionResult CargarEmpleados()
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    var ddl = db.UDP_tbUsuarios_DDLEmpleadosTieneUsuario();
+                    return Json(ddl, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }
+            
+        }
+        
+        [HttpGet]
+        public ActionResult ExisteUserNameCrear(string Usua_Nombre)
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    var ddl = db.UDP_tbUsuarios_ExisteNombreUsuario(Usua_Nombre).ToList();
+                    if(ddl.Count > 0)
+                    {
+                        return Json(new { success = true, Error = true }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new { success = true, Funciona = true }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                return RedirectToAction("Index", "Login");
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult ExisteUserNameEditar(string Usua_Nombre, string Usua_Id)
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    var ddl = db.UDP_tbUsuarios_ExisteNombreUsuario(Usua_Nombre).ToList();
+                    string register = ddl[0].ToString();
+                    if (ddl.Count > 0 && (Usua_Id != register))
+                    {
+                        return Json(new { success = true, Error = true }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(new { success = true, Funciona = true }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                return RedirectToAction("Index", "Login");
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }
+
+        }
+
+
+
+        // GET: Usuarios/Create
+        public ActionResult Create()
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    ViewBag.Empl_Id = new SelectList(db.tbEmpleados, "Empl_Id", "Empl_DNI");
+                    ViewBag.Usua_IdCreacion = new SelectList(db.tbUsuarios, "Usua_Id", "Usua_Nombre");
+                    ViewBag.Usua_IdModificacion = new SelectList(db.tbUsuarios, "Usua_Id", "Usua_Nombre");
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }  
+        }
+
+        // POST: Usuarios/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Create(string Empl_Id, string Usua_Nombre, string Usua_Clave, string Usua_EsAdmin)
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    if (Usua_Nombre == "" && Usua_Clave == "" && Empl_Id == "-1")
+                    {
+                        return Json(new { success = true, Error1 = true }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        if (Usua_Nombre != "" && Usua_Clave == "" && Empl_Id == "-1")
+                        {
+                            return Json(new { success = true, Error2 = true }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            if (Usua_Nombre != "" && Usua_Clave != "" && Empl_Id == "-1")
+                            {
+                                return Json(new { success = true, Error3 = true }, JsonRequestBehavior.AllowGet);
+                            }
+                            else
+                            {
+                                if (Usua_Nombre != "" && Usua_Clave == "" && Empl_Id != "-1")
+                                {
+                                    return Json(new { success = true, Error4 = true }, JsonRequestBehavior.AllowGet);//Usuario no vacio
+                                }
+                                else
+                                {
+                                    if (Usua_Nombre == "" && Usua_Clave != "" && Empl_Id == "-1")
+                                    {
+                                        return Json(new { success = true, Error5 = true }, JsonRequestBehavior.AllowGet);
+                                    }
+                                    else
+                                    {
+                                        if (Usua_Nombre != "" && Usua_Clave != "" && Empl_Id == "-1")
+                                        {
+                                            return Json(new { success = true, Error6 = true }, JsonRequestBehavior.AllowGet);
+                                        }
+                                        else
+                                        {
+                                            if (Usua_Nombre == "" && Usua_Clave != "" && Empl_Id != "-1")
+                                            {
+                                                return Json(new { success = true, Error7 = true }, JsonRequestBehavior.AllowGet);//Clave no vacio
+                                            }
+                                            else
+                                            {
+                                                if (Usua_Nombre == "" && Usua_Clave == "" && Empl_Id != "-1")
+                                                {
+                                                    return Json(new { success = true, Error8 = true }, JsonRequestBehavior.AllowGet);
+                                                }
+                                                else
+                                                {
+                                                    if (Usua_Nombre == "" && Usua_Clave != "" && Empl_Id != "-1")
+                                                    {
+                                                        return Json(new { success = true, Error9 = true }, JsonRequestBehavior.AllowGet);
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Usua_Nombre != "" && Usua_Clave == "" && Empl_Id != "-1")
+                                                        {
+                                                            return Json(new { success = true, Error10 = true }, JsonRequestBehavior.AllowGet);//empleado escogido
+                                                        }
+                                                        else
+                                                        {
+                                                            if (Usua_Nombre != "" && Usua_Clave != "" && Empl_Id != "-1")//Agrega
+                                                            {
+                                                                var resultado = db.UDP_tbUsuarios_InsertarNuevoUsuario(Empl_Id, Usua_Nombre, Usua_Clave, Usua_EsAdmin, Session["usua_Id"].ToString());
+                                                                if (resultado > 0)
+                                                                {
+                                                                    return Json(new { success = true, correcto = true }, JsonRequestBehavior.AllowGet);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }             
+        }
+
+        // GET: Usuarios/Edit/5
+        public ActionResult Edit(string id)
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+
+                    if (id == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    var tbUsuarios = db.UDP_tbUsuario_CargarDatosEditar_Eliminar_Detalles(id).ToList();
+                    if (tbUsuarios.Count == 0)
+                    {
+                        return HttpNotFound();
+                    }
+                    return Json(new { success = true, Usua_Id = tbUsuarios[0].Usua_Id.ToString(), Usua_EsAdmin = tbUsuarios[0].Usua_EsAdmin.ToString(), Usua_Nombre = tbUsuarios[0].Usua_Nombre.ToString() }, JsonRequestBehavior.AllowGet);
+                    //ViewBag.Empl_Id = new SelectList(db.tbEmpleados, "Empl_Id", "Empl_DNI", tbUsuario.Empl_Id);
+                    //ViewBag.Usua_IdCreacion = new SelectList(db.tbUsuarios, "Usua_Id", "Usua_Nombre", tbUsuario.Usua_IdCreacion);
+                    //ViewBag.Usua_IdModificacion = new SelectList(db.tbUsuarios, "Usua_Id", "Usua_Nombre", tbUsuario.Usua_IdModificacion);
+                    //return View(tbUsuario);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }
+
+        }
+
+             
+        // POST: Usuarios/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Edit(string Usua_Id, string Usua_Nombre, string Usua_EsAdmin, string Usua_ModificacionId)
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    if (Usua_Nombre == "")
+                    {
+                        return Json(new { success = true, ErrorGeneral = true }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        var resultado = db.UDP_tbUsuarios_ActualizarUsuario(Usua_Id, Usua_Nombre, Usua_EsAdmin, Session["usua_Id"].ToString());
+                        if (resultado > 0)
+                        {
+                            return Json(new { success = true, Editar = true }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            RedirectToAction("Error500", "Home");
+                        }
+
+                    }
+                    return View();
+                    //ViewBag.Empl_Id = new SelectList(db.tbEmpleados, "Empl_Id", "Empl_DNI", tbUsuario.Empl_Id);
+                    //ViewBag.Usua_IdCreacion = new SelectList(db.tbUsuarios, "Usua_Id", "Usua_Nombre", tbUsuario.Usua_IdCreacion);
+                    //ViewBag.Usua_IdModificacion = new SelectList(db.tbUsuarios, "Usua_Id", "Usua_Nombre", tbUsuario.Usua_IdModificacion);
+                    //return View(tbUsuario);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }
+
+           
+        }
+
+        // GET: Usuarios/Delete/5
+        public ActionResult Delete(string id)
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    if (id == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                    var tbUsuarios = db.UDP_tbUsuario_CargarDatosEditar_Eliminar_Detalles(id.ToString()).ToList();
+                    if (tbUsuarios.Count == 0)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    return Json(new { success = true, Usua_Id = tbUsuarios[0].Usua_Id.ToString() }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }            
+        }
+
+        // POST: Usuarios/Delete/5
+        [HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            try
+            {
+                if (Session.Count > 0)
+                {
+                    var resultado = db.UDP_tbUsuarios_DeleteUsuarios(int.Parse(id), 1);
+                    if (resultado > 0)
+                    {
+                        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction("Error500", "Home");
+                throw;
+            }
+
+           
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}
